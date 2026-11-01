@@ -1,0 +1,117 @@
+/* ==========================================================================
+   Tema visual: colores, tipografía y medidas editables.
+   Cambiar estos valores modifica la interfaz y la ilustración sin tocar el código.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Fraunces";
+  src: url("../assets/fuentes/fraunces-latin-500-normal.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Fraunces";
+  src: url("../assets/fuentes/fraunces-latin-600-normal.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("../assets/fuentes/atkinson-hyperlegible-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible";
+  src: url("../assets/fuentes/atkinson-hyperlegible-latin-700-normal.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Paleta base */
+  --azul-noche: #102a43;
+  --azul-noche-profundo: #081a2c;
+  --azul-bosque: #123b50;
+  --verde-petroleo: #0b4b50;
+  --crema: #f4ebdd;
+  --crema-suave: #d9cfbf;      /* texto secundario sobre el cielo (contraste > 9:1) */
+  --ambar: #f5b44b;
+  --ambar-claro: #ffd48c;
+  --tinta-sobre-ambar: #13263a;
+
+  /* Cielo */
+  --cielo-1: #071728;
+  --cielo-2: #0c2238;
+  --cielo-3: #102a43;
+  --cielo-4: #15385a;
+  --estrella: #f4ebdd;
+
+  /* Controles */
+  --boton-secundario-fondo: rgba(6, 21, 31, 0.86);
+  --boton-secundario-borde: rgba(244, 235, 221, 0.42);
+  --opcion-borde: rgba(244, 235, 221, 0.4);
+  --opcion-fondo: rgba(8, 26, 44, 0.55);
+  --opcion-fondo-hover: rgba(244, 235, 221, 0.1);
+  --pista: rgba(244, 235, 221, 0.38);
+  --foco: #ffd48c;
+  --aviso-fondo: rgba(8, 24, 38, 0.88);
+  --error: #ffb4a2;
+  --exito: #b9e4c9;
+
+  /* Ilustración (sobrescriben los valores internos de assets/escena-bosque.svg) */
+  --esc-cerro: #143954;
+  --esc-pino-1: #17405a;
+  --esc-pino-2: #11354b;
+  --esc-pino-2-luz: #164259;
+  --esc-pino-3: #0b2c3a;
+  --esc-pino-3-luz: #0d3d45;
+  --esc-pino-3-fuego: #2b3a33;
+  --esc-pino-4: #071e28;
+  --esc-pino-4-luz: #0a2a31;
+  --esc-pino-4-fuego: #1f2622;
+  --esc-pino-5: #04131a;
+  --esc-tela-a: #2b5553;
+  --esc-tela-b: #5b4a37;
+  --esc-llama-1: #e2762b;
+  --esc-llama-2: #ee9737;
+  --esc-llama-3: #f5b44b;
+  --esc-llama-4: #fce6ae;
+  --esc-brasa: #ffd48c;
+  --suelo-inferior: #05151d;
+
+  /* Tipografía */
+  --fuente-titulos: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --fuente-texto: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  /* Medidas de composición */
+  --ancho-contenido: 40rem;
+  --margen-lateral: max(1rem, env(safe-area-inset-left), env(safe-area-inset-right));
+  --altura-bosque: clamp(180px, 31dvh, 360px);
+  /* Fracción de la altura del bosque ocupada por la fogata y sus brasas, medida desde abajo.
+     La navegación se coloca justo encima para no taparla. */
+  --fraccion-fogata: 0.43;
+  --alto-navegacion: 3.25rem;
+  --ancho-primario: 8.75rem;
+  --tamano-luna: clamp(52px, 13vw, 104px);
+  --radio: 14px;
+  --duracion-transicion: 180ms;
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  :root {
+    --altura-bosque: clamp(132px, 33dvh, 170px);
+    --alto-navegacion: 2.9rem;
+    --tamano-luna: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duracion-transicion: 0ms;
+  }
+}

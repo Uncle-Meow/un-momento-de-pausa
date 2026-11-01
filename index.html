@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="es" data-movimiento="activo" data-pestana="visible">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071728">
+  <meta name="color-scheme" content="dark">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Actividad educativa para reflexionar sobre señales de desgaste en los estudios y el trabajo.">
+  <title>Un momento de pausa · Señales de desgaste</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fuentes/fraunces-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fuentes/atkinson-hyperlegible-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/escena-bosque.svg" as="fetch" type="image/svg+xml" crossorigin>
+  <link rel="stylesheet" href="css/tema.css">
+  <link rel="stylesheet" href="css/estilos.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <!-- Escenario decorativo: oculto para lectores de pantalla -->
+  <div class="escena" aria-hidden="true">
+    <svg class="estrellas" id="estrellas" focusable="false"></svg>
+    <div class="luna">
+      <svg viewBox="0 0 100 100" focusable="false">
+        <defs>
+          <radialGradient id="luna-halo" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0.45" stop-color="#f4ebdd" stop-opacity="0.16"/>
+            <stop offset="1" stop-color="#f4ebdd" stop-opacity="0"/>
+          </radialGradient>
+          <mask id="luna-mascara">
+            <rect width="100" height="100" fill="#000"/>
+            <circle cx="50" cy="50" r="27" fill="#fff"/>
+            <circle cx="63" cy="41" r="24.5" fill="#000"/>
+          </mask>
+        </defs>
+        <circle cx="50" cy="50" r="50" fill="url(#luna-halo)"/>
+        <g mask="url(#luna-mascara)">
+          <circle cx="50" cy="50" r="27" fill="#f4ebdd"/>
+          <circle cx="36" cy="60" r="3.2" fill="#d9cdb8" opacity="0.55"/>
+          <circle cx="31" cy="47" r="2.1" fill="#d9cdb8" opacity="0.5"/>
+          <circle cx="45" cy="70" r="2.4" fill="#d9cdb8" opacity="0.45"/>
+        </g>
+      </svg>
+    </div>
+    <div class="bosque" id="bosque"></div>
+  </div>
+
+  <noscript><p class="sin-script">Esta actividad necesita JavaScript activado para funcionar.</p></noscript>
+
+  <main class="app" id="app">
+    <!-- 1. Inicio -->
+    <section class="pantalla pantalla-centrada" id="pantalla-inicio" data-pantalla="inicio" hidden aria-labelledby="titulo-inicio">
+      <div class="columna">
+        <h1 class="titulo-principal" id="titulo-inicio" tabindex="-1" data-t="app.titulo"></h1>
+        <p class="subtitulo" data-t="app.subtitulo"></p>
+        <div class="texto-proposito" id="texto-proposito"></div>
+        <p class="nota-suave" id="duracion-inicio"></p>
+        <p><button type="button" class="enlace-texto" data-accion="abrir-acerca" data-t="inicio.acerca"></button></p>
+      </div>
+    </section>
+
+    <!-- 2. Instrucciones y aceptación -->
+    <section class="pantalla pantalla-centrada" id="pantalla-instrucciones" data-pantalla="instrucciones" hidden aria-labelledby="titulo-instrucciones">
+      <div class="columna">
+        <h2 class="titulo-seccion" id="titulo-instrucciones" tabindex="-1" data-t="instrucciones.titulo"></h2>
+        <p class="indicacion" data-t="instrucciones.indicacion"></p>
+        <h3 class="titulo-menor" data-t="instrucciones.datosTitulo"></h3>
+        <p class="texto-secundario" id="datos-instrucciones"></p>
+        <label class="aceptacion">
+          <input type="checkbox" id="casilla-aceptacion" aria-describedby="pista-aceptacion">
+          <span class="aceptacion-caja" aria-hidden="true"></span>
+          <span data-t="instrucciones.aceptacion"></span>
+        </label>
+        <p class="pista" id="pista-aceptacion" data-t="instrucciones.pistaAceptacion"></p>
+      </div>
+    </section>
+
+    <!-- 3. Pregunta (una por pantalla) -->
+    <section class="pantalla pantalla-pregunta" id="pantalla-pregunta" data-pantalla="pregunta" hidden aria-labelledby="texto-pregunta">
+      <div class="columna columna-pregunta">
+        <header class="progreso">
+          <p class="progreso-texto">
+            <span class="progreso-posicion" id="progreso-posicion"></span>
+            <span class="progreso-pendientes" id="progreso-pendientes"></span>
+          </p>
+          <div class="progreso-barra" id="progreso-barra" role="progressbar" aria-valuemin="0">
+            <span class="progreso-relleno" id="progreso-relleno"></span>
+          </div>
+        </header>
+        <div class="cuerpo-pregunta" id="cuerpo-pregunta">
+          <div class="bloque-pregunta" id="bloque-pregunta">
+            <h2 class="texto-pregunta" id="texto-pregunta" tabindex="-1"></h2>
+          </div>
+          <div class="escala" id="escala"></div>
+        </div>
+      </div>
+      <div class="medidor" id="medidor-pregunta" aria-hidden="true"></div>
+    </section>
+
+    <!-- 4. Revisión -->
+    <section class="pantalla" id="pantalla-revision" data-pantalla="revision" hidden aria-labelledby="titulo-revision">
+      <div class="columna">
+        <h2 class="titulo-seccion" id="titulo-revision" tabindex="-1" data-t="revision.titulo"></h2>
+        <p class="texto-secundario" id="descripcion-revision"></p>
+        <p class="aviso" id="faltan-revision" hidden></p>
+        <p class="aviso" id="aviso-sin-configuracion" hidden></p>
+        <ol class="lista-revision" id="lista-revision"></ol>
+        <p class="estado-envio" id="estado-envio-revision" role="status" aria-live="polite"></p>
+        <p class="acciones-secundarias" id="acciones-revision">
+          <button type="button" class="enlace-texto" data-accion="borrar-sesion" data-t="revision.borrar"></button>
+        </p>
+      </div>
+    </section>
+
+    <!-- 5. Resultado individual -->
+    <section class="pantalla" id="pantalla-resultado" data-pantalla="resultado" hidden aria-labelledby="titulo-resultado">
+      <div class="columna">
+        <h2 class="titulo-seccion" id="titulo-resultado" tabindex="-1" data-t="resultado.titulo"></h2>
+        <div class="estado-guardado" id="estado-guardado" role="status" aria-live="polite">
+          <p id="estado-guardado-texto"></p>
+          <button type="button" class="boton boton-secundario boton-compacto" id="boton-reintentar" data-accion="reintentar" data-t="guardado.botonReintentar" hidden></button>
+        </div>
+        <div class="cifras">
+          <div class="cifra">
+            <p class="cifra-etiqueta" data-t="resultado.suma"></p>
+            <p class="cifra-valor" id="valor-suma"></p>
+            <p class="cifra-rango" id="rango-suma"></p>
+          </div>
+          <div class="cifra">
+            <p class="cifra-etiqueta" data-t="resultado.promedio"></p>
+            <p class="cifra-valor" id="valor-promedio"></p>
+            <p class="cifra-rango" data-t="resultado.rangoPromedio"></p>
+          </div>
+        </div>
+        <section class="orientacion" id="orientacion" aria-labelledby="titulo-orientacion">
+          <p class="orientacion-rango" id="rango-frecuencia"></p>
+          <h3 class="orientacion-titulo" id="titulo-orientacion"></h3>
+          <p class="orientacion-frecuencia" id="frecuencia-media"></p>
+          <ul class="ideas" id="lista-ideas"></ul>
+          <p class="orientacion-frase" id="frase-orientacion"></p>
+        </section>
+        <p class="nota-resultado" data-t="resultado.nota"></p>
+        <details class="detalle-resumen">
+          <summary data-t="resultado.detalleTitulo"></summary>
+          <p class="texto-secundario" data-t="resultado.metodo"></p>
+          <figure class="escala-resultado" id="escala-resultado">
+          <div class="escala-resultado-pista" aria-hidden="true">
+            <span class="escala-resultado-marcador" id="marcador-promedio"></span>
+          </div>
+          <ol class="escala-resultado-marcas" id="marcas-resultado" aria-hidden="true"></ol>
+          <figcaption class="texto-secundario" id="leyenda-escala"></figcaption>
+          </figure>
+        </details>
+        <p><button type="button" class="enlace-texto" data-accion="abrir-acerca" data-t="resultado.acerca"></button></p>
+      </div>
+    </section>
+
+    <!-- Modo de presentación (?modo=presentacion) -->
+    <section class="pantalla pantalla-presentacion" id="pantalla-presentacion" data-pantalla="presentacion" hidden aria-labelledby="titulo-presentacion">
+      <div class="presentacion">
+        <div class="presentacion-texto">
+          <h1 class="titulo-principal titulo-proyeccion" id="titulo-presentacion" data-t="presentacion.titulo"></h1>
+          <p class="subtitulo subtitulo-proyeccion" data-t="presentacion.subtitulo"></p>
+          <p class="instruccion-proyeccion" data-t="presentacion.instruccion"></p>
+          <p class="alternativa-proyeccion"><span data-t="presentacion.alternativa"></span> <a id="enlace-publico" class="enlace-publico"></a></p>
+          <p class="aviso" id="aviso-presentacion" hidden></p>
+        </div>
+        <div class="presentacion-qr">
+          <div class="qr-lienzo" id="qr-lienzo"></div>
+          <p class="descargas">
+            <button type="button" class="boton boton-secundario boton-compacto" id="descargar-png" data-t="presentacion.descargarPng"></button>
+            <button type="button" class="boton boton-secundario boton-compacto" id="descargar-svg" data-t="presentacion.descargarSvg"></button>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <p class="pista-desplazamiento" id="pista-desplazamiento" aria-hidden="true" hidden>Desliza para ver más ↓</p>
+
+  <!-- Navegación compartida: siempre en la misma franja del bosque, sobre la fogata -->
+  <nav class="navegacion" id="navegacion" aria-label="Navegación del cuestionario" hidden>
+    <button type="button" class="boton boton-secundario" id="boton-secundario"></button>
+    <button type="button" class="boton boton-primario" id="boton-primario"></button>
+  </nav>
+
+  <button type="button" class="control-movimiento" id="control-movimiento">
+    <svg class="icono-pausa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="6.5" y="5" width="3.6" height="14" rx="1.2"/><rect x="13.9" y="5" width="3.6" height="14" rx="1.2"/></svg>
+    <svg class="icono-reanudar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.6v12.8c0 .8.9 1.3 1.6.9l10-6.4c.6-.4.6-1.3 0-1.7l-10-6.4C8.9 4.3 8 4.8 8 5.6z"/></svg>
+  </button>
+
+  <dialog class="dialogo" id="dialogo-acerca" aria-labelledby="titulo-acerca">
+    <div class="dialogo-contenido">
+      <h2 class="titulo-seccion" id="titulo-acerca" tabindex="-1" autofocus data-t="acerca.titulo"></h2>
+      <dl class="creditos">
+        <dt data-t="acerca.curso"></dt><dd data-t="acerca.cursoNombre"></dd>
+        <dt data-t="acerca.profesora"></dt><dd data-t="acerca.profesoraNombre"></dd>
+        <dt data-t="acerca.integrantes"></dt><dd><ul class="integrantes" id="lista-integrantes"></ul></dd>
+      </dl>
+      <p data-t="acerca.explicacion"></p>
+      <p data-t="acerca.marco"></p>
+      <p class="texto-secundario" data-t="acerca.alcanceRecomendaciones"></p>
+      <h3 class="titulo-menor" data-t="acerca.referenciaTitulo"></h3>
+      <p class="referencia" id="referencia-apa"></p>
+      <h3 class="titulo-menor" data-t="acerca.fuentesTitulo"></h3>
+      <ul class="referencias" id="fuentes-orientaciones"></ul>
+      <form method="dialog" class="dialogo-acciones">
+        <button class="boton boton-primario boton-compacto" value="cerrar" data-t="acerca.cerrar"></button>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog class="dialogo" id="dialogo-confirmar" aria-labelledby="titulo-confirmar" aria-describedby="texto-confirmar">
+    <form method="dialog" class="dialogo-contenido">
+      <h2 class="titulo-seccion" id="titulo-confirmar"></h2>
+      <p id="texto-confirmar"></p>
+      <div class="dialogo-acciones">
+        <button class="boton boton-secundario boton-compacto" value="cancelar" id="confirmar-cancelar"></button>
+        <button class="boton boton-primario boton-compacto" value="aceptar" id="confirmar-aceptar"></button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

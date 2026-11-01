@@ -1,0 +1,10 @@
+node_modules/
+.DS_Store
+# Secretos locales de Supabase: nunca se suben al repositorio
+.env
+.env.*
+!.env.example
+supabase/.temp/
+supabase/.branches/
+supabase/functions/.env
+deno.lock

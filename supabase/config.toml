@@ -1,0 +1,9 @@
+# Configuración mínima para la CLI de Supabase.
+# project_id es solo un nombre local; el proyecto remoto se vincula con `supabase link`.
+project_id = "un-momento-de-pausa"
+
+# Los participantes no inician sesión, por lo que la función no recibe un JWT de usuario.
+# La verificación de JWT de la plataforma debe estar desactivada para esta función; la
+# protección está en la validación de la función, los permisos de la base de datos y RLS.
+[functions.registrar-entrega]
+verify_jwt = false

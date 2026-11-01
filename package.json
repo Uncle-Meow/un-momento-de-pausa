@@ -1,0 +1,14 @@
+{
+  "name": "un-momento-de-pausa",
+  "private": true,
+  "type": "module",
+  "description": "Cuestionario educativo sobre señales de desgaste (sitio estático para GitHub Pages).",
+  "scripts": {
+    "servir": "python3 -m http.server 8000",
+    "escena": "node herramientas/generar-escena.mjs",
+    "test": "node --test pruebas/frontend/*.test.mjs",
+    "test:funcion": "deno test pruebas/funcion/manejador_test.ts",
+    "test:funcion:node": "node --test pruebas/funcion/ejecutar_node.mjs",
+    "test:e2e": "node pruebas/e2e/recorrido.mjs"
+  }
+}
