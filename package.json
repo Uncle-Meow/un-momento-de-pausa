@@ -4,6 +4,7 @@
   "type": "module",
   "description": "Cuestionario educativo sobre señales de desgaste (sitio estático para GitHub Pages).",
   "scripts": {
+    "test:google": "node --test pruebas/funcion/google_sheets.test.mjs",
     "servir": "python3 -m http.server 8000",
     "escena": "node herramientas/generar-escena.mjs",
     "test": "node --test pruebas/frontend/*.test.mjs",

@@ -1,8 +1,9 @@
-// Envío de la entrega a la Edge Function de Supabase.
+// Envío a Google Sheets mediante Apps Script; se conserva el adaptador HTTP alternativo.
 // Solo se confirma el guardado cuando el servidor responde con éxito y devuelve el mismo
 // identificador de entrega. Cualquier otra situación se informa como no guardada.
 
 import { ESTADOS_ENVIO } from './recorrido.js';
+import { esEndpointGoogle, enviarAGoogle } from './google-sheets.js';
 
 const HOSTS_LOCALES = new Set(['localhost', '127.0.0.1', '[::1]']);
 
@@ -43,7 +44,9 @@ export async function enviarEntrega(payload, { endpoint, tiempoMaximoMs = 15000,
   const temporizador = setTimeout(() => control.abort(), tiempoMaximoMs);
   let respuesta;
   try {
-    respuesta = await fetchImpl(endpoint, {
+    respuesta = esEndpointGoogle(endpoint)
+      ? await enviarAGoogle(payload, {endpoint,tiempoMaximoMs})
+      : await fetchImpl(endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),

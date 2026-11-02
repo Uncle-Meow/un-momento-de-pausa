@@ -2,12 +2,11 @@
 // Ninguno de ellos es secreto: no coloque aquí claves secretas, contraseñas ni tokens.
 
 export const CONFIG = Object.freeze({
-  // Identificador de la actividad. Debe existir en la tabla public.actividades de Supabase
-  // (la migración incluida la crea con este mismo valor).
+  // Identificador de la actividad; debe coincidir con la configuración del servicio.
   actividad: 'habilidades-liderazgo-2026',
 
-  // URL de la Edge Function que recibe las entregas, por ejemplo:
-  //   https://<referencia-del-proyecto>.supabase.co/functions/v1/registrar-entrega
+  // URL /exec del despliegue público de Apps Script que recibe las entregas.
+  // La conexión se realiza mediante un iframe de HtmlService y google.script.run.
   // Mientras esté vacía, la aplicación funciona pero informa que no puede guardar entregas.
   endpointEntregas: '',
 
@@ -19,7 +18,7 @@ export const CONFIG = Object.freeze({
 
   // Formato de números (separador decimal) y tiempo máximo de espera del envío.
   idioma: 'es-CR',
-  tiempoMaximoEnvioMs: 15000,
+  tiempoMaximoEnvioMs: 45000,
 
   // Clave del borrador en sessionStorage (cambiarla invalida borradores anteriores).
   claveBorrador: 'pausa-borrador-v1',
