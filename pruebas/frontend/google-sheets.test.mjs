@@ -55,3 +55,13 @@ test('conserva los errores del servidor para que la interfaz no afirme un guarda
   e.mensaje('listo');e.mensaje('respuesta',{status:403,body:{ok:false,codigo:'actividad_no_disponible'}});
   const r=await p;assert.equal(r.ok,false);assert.equal(r.status,403);
 });
+
+test('acepta el puente dentro de los dos marcos que añade HtmlService',async()=>{
+  const e=entorno();
+  e.fuente.parent={parent:e.iframe.contentWindow};
+  const p=enviarAGoogle({}, {endpoint,...e});
+  e.mensaje('listo');
+  assert.equal(e.fuente.mensajes.length,1);
+  e.mensaje('respuesta',{status:201,body:{ok:true}});
+  assert.equal((await p).status,201);
+});

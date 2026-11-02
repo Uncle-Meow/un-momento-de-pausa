@@ -17,6 +17,20 @@ export function esOrigenPuente(origen) {
   } catch { return false; }
 }
 
+function perteneceAlMarco(fuente, marco) {
+  // HtmlService añade sandboxFrame y userHtmlFrame dentro del marco del servicio.
+  // Recorrer únicamente esa cadena de padres conserva la comprobación del remitente.
+  try {
+    for (let profundidad=0; fuente && profundidad<5; profundidad++) {
+      if (fuente === marco) return true;
+      const padre=fuente.parent;
+      if (padre === fuente) break;
+      fuente=padre;
+    }
+  } catch { /* Un remitente que no permite verificar su ascendencia se ignora. */ }
+  return false;
+}
+
 export function enviarAGoogle(payload, { endpoint, tiempoMaximoMs = 45000,
   ventana = globalThis.window, documento = globalThis.document, cryptoImpl = globalThis.crypto } = {}) {
   return new Promise((resolve, reject) => {
@@ -44,8 +58,7 @@ export function enviarAGoogle(payload, { endpoint, tiempoMaximoMs = 45000,
       if (!m || m.app !== APP || m.canal !== canal || !esOrigenPuente(e.origin) || !e.source) return;
       if (m.tipo === 'listo' && !fuente) {
         // Solo aceptar un marco descendiente del iframe que acaba de abrirse.
-        try { if (e.source !== iframe.contentWindow && e.source.parent !== iframe.contentWindow) return; }
-        catch { return; }
+        if (!perteneceAlMarco(e.source,iframe.contentWindow)) return;
         fuente = e.source;
         fuente.postMessage({app:APP,canal,tipo:'guardar',payload},e.origin);
       } else if (m.tipo === 'respuesta' && e.source === fuente) {
