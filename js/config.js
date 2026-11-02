@@ -8,13 +8,13 @@ export const CONFIG = Object.freeze({
   // URL /exec del despliegue público de Apps Script que recibe las entregas.
   // La conexión se realiza mediante un iframe de HtmlService y google.script.run.
   // Mientras esté vacía, la aplicación funciona pero informa que no puede guardar entregas.
-  endpointEntregas: '',
+  endpointEntregas: 'https://script.google.com/macros/s/AKfycbwE0wSZZuTfXfOxOlY_meJeZEvZXRR_ymdIXMwhNsxk08-xQN1FEIVVe0osQsh85iE/exec',
 
   // URL pública HTTPS definitiva del cuestionario en GitHub Pages, con la barra final, por ejemplo:
   //   https://<usuario>.github.io/<repositorio>/
   // El QR del modo de presentación apunta a esta dirección. Si queda vacía, se deduce de la
   // dirección actual cuando el sitio ya está publicado con HTTPS.
-  urlPublica: '',
+  urlPublica: 'https://uncle-meow.github.io/un-momento-de-pausa/',
 
   // Formato de números (separador decimal) y tiempo máximo de espera del envío.
   idioma: 'es-CR',
