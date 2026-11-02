@@ -38,7 +38,9 @@ export function enviarAGoogle(payload, { endpoint, tiempoMaximoMs = 45000,
     const bytes = cryptoImpl.getRandomValues(new Uint8Array(16));
     const canal = [...bytes].map(v => v.toString(16).padStart(2, '0')).join('');
     const iframe = documento.createElement('iframe');
-    iframe.hidden = true;
+    // HtmlService inicializa marcos internos que necesitan un área de diseño.
+    // Mantener un píxel fuera del flujo evita display:none sin alterar la interfaz.
+    iframe.setAttribute('style','position:fixed;right:0;bottom:0;width:1px;height:1px;border:0;opacity:.01;pointer-events:none');
     iframe.tabIndex = -1;
     iframe.setAttribute('aria-hidden', 'true');
     iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-forms');
