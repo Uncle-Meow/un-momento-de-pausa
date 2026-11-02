@@ -8,7 +8,7 @@ import { Recorrido, PANTALLAS, ESTADOS_ENVIO } from './recorrido.js';
 import { crearEscala } from './escala.js';
 import { enviarEntrega, endpointValido } from './envio.js';
 import { formatearPromedio } from './puntaje.js';
-import { cargarBosque, dibujarEstrellas, crearControlMovimiento } from './escena.js';
+import { cargarBosque, dibujarEstrellas, iniciarAmbiente } from './escena.js';
 
 const $ = (id) => document.getElementById(id);
 const movimientoReducido = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -651,7 +651,7 @@ function iniciarCuestionario() {
 
 function arrancar() {
   llenarContenidoFijo();
-  crearControlMovimiento($('control-movimiento'), TEXTOS.movimiento);
+  iniciarAmbiente();
   cargarBosque($('bosque'), 'assets/escena-bosque.svg');
   redibujarEstrellas();
   const parametros = new URLSearchParams(window.location.search);

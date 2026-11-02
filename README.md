@@ -55,7 +55,7 @@ El puente de Google admite el origen de producción configurado; las pruebas loc
 
 No publique respuestas individuales ni comparta la hoja con los participantes. El UUID impide duplicar el mismo envío, pero no identifica personas ni limita a una entrega por persona. Cierre la recepción después de la actividad. GitHub y Google pueden conservar registros técnicos de conexión.
 
-Las animaciones pueden pausarse y respetan la preferencia de movimiento reducido. «Siguiente» permanece oculto hasta responder. Las preguntas, instrucciones, revisión y resultado permiten desplazamiento cuando el contenido no cabe.
+La fogata permanece animada mientras la pestaña está visible y no tiene botón de pausa. La preferencia de movimiento reducido se aplica a las transiciones de pantalla y al titilar de las estrellas. «Siguiente» permanece oculto hasta responder. Las preguntas, instrucciones, revisión y resultado permiten desplazamiento cuando el contenido no cabe.
 
 Curso Habilidades del Liderazgo. Profesora: Angélica Méndez Varela. Integrantes: Dominique Trejos Álvarez, Marlon Francisco Murillo García y Juan Pablo Morera González.
 

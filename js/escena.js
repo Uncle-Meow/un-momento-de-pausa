@@ -1,4 +1,4 @@
-// Escenario decorativo: carga del bosque, cielo estrellado y control de animaciones.
+// Escenario decorativo: carga del bosque, cielo estrellado y fogata continua.
 // La escena no reacciona a las respuestas: solo existe como ambiente estable.
 
 const SEMILLA_ESTRELLAS = 7331;
@@ -83,52 +83,13 @@ export function dibujarEstrellas(svg, { zonaTexto, luna, alturaBosque }) {
   svg.replaceChildren(frag);
 }
 
-// Control visible para pausar o reanudar todas las animaciones decorativas.
-export function crearControlMovimiento(boton, textos) {
+// La fogata permanece activa en la página visible, sin controles manuales.
+export function iniciarAmbiente() {
   const raiz = document.documentElement;
-  const consulta = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let eleccion = null; // null = seguir la preferencia del sistema; 'pausado' | 'activo'
-  try {
-    eleccion = sessionStorage.getItem('pausa-movimiento');
-  } catch {
-    eleccion = null;
-  }
-
-  function aplicar() {
-    const pausado = eleccion ? eleccion === 'pausado' : consulta.matches;
-    if (pausado) raiz.dataset.movimiento = 'pausado';
-    else raiz.dataset.movimiento = consulta.matches ? 'activo-explicito' : 'activo';
-    const etiqueta = pausado ? textos.reanudar : textos.pausar;
-    boton.setAttribute('aria-label', etiqueta);
-    boton.title = etiqueta;
-  }
-
-  boton.addEventListener('click', () => {
-    const pausadoAhora = raiz.dataset.movimiento === 'pausado';
-    eleccion = pausadoAhora ? 'activo' : 'pausado';
-    try {
-      sessionStorage.setItem('pausa-movimiento', eleccion);
-    } catch {
-      /* sin almacenamiento */
-    }
-    aplicar();
-  });
-  consulta.addEventListener?.('change', aplicar);
-
   // Con la pestaña oculta se detiene el trabajo de animación.
   const visibilidad = () => {
     raiz.dataset.pestana = document.hidden ? 'oculta' : 'visible';
   };
   document.addEventListener('visibilitychange', visibilidad);
   visibilidad();
-  aplicar();
-
-  return {
-    get reducido() {
-      return consulta.matches && eleccion !== 'activo';
-    },
-    get pausado() {
-      return raiz.dataset.movimiento === 'pausado';
-    },
-  };
 }
